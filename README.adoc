@@ -31,7 +31,7 @@ systemctl restart opennms
 
 Checkout this repository with git or copy the files manually using the GitHub raw link to download the configuration files.
 
-.Install configuration for metrics and RRD graph definitions
+.Install configuration for metrics collection and RRD graph definitions
 [source, bash]
 ----
 git clone https://github.com/opennms-config-modules/nextcloud.git
@@ -75,9 +75,9 @@ Create the `xml-datacollection-config.xml` which defines RRD configuration.
     </xml-collection>
 </xml-datacollection-config>
 ----
-<1> Path to RRD files
-<2> URL to Nextcloud serverinfo XML file, for authentication use USER:PASS@host/path in the URL
+<1> OpenNMS home relative path to persist RRD files
+<2> URL to Nextcloud serverinfo ReST service with XML file, for authentication use USER:PASS@host/path in the URL
 <3> Instead of `YOUR-SERVER` you can also use `{ipaddr}` which is replaced with the IP interface address of the assigned `Nexcloud-Serverinfo` service
-<4> Include pre-configured metrics configuration which needs to be persisted
+<4> Include pre-configured metrics configuration for data collection
 
 Restart OpenNMS and provision a service on your nodes IP interface named `Nexcloud-Serverinfo`.
