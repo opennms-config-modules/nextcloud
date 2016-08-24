@@ -1,0 +1,83 @@
+= Nextcloud data performance data collection
+
+This repository has contains the configuration to use link:http://www.opennms.org[OpenNMS] collecting performance metrics provided through the link:https://github.com/nextcloud/serverinfo[Nextcloud serverinfo API].
+With the provided configuration the metrics will be collected every 5 minutes and persisted in OpenNMS using the configured storage strategy like link:http://oss.oetiker.ch/rrdtool/[RRDtool] or link:http://cassandra.apache.org[Cassandra] based link:http://opennms.github.io/newts/[Newts].
+
+== Requirements
+
+* Nextcloud release candidate 10 with serverinfo support
+* OpenNMS Horizon/Meridian
+* Installed  with XML data collector plugin
+* Provision your Nextcloud server into OpenNMS for monitoring
+* OpenNMS is installed in /opt/opennms
+
+The XML data collector plugin is not installed by default and can be installed with
+
+.Installing XML collector plugin
+[source, bash]
+----
+yum install opennms-plugin-protocol-xml
+apt-get install opennms-plugin-protocol-xml
+----
+
+After installing the plugin it is required to restart OpenNMS with
+
+[source, bash]
+----
+systemctl restart opennms
+----
+
+== Install data collection configuration
+
+Checkout this repository with git or copy the files manually using the GitHub raw link to download the configuration files.
+
+.Install configuration for metrics and RRD graph definitions
+[source, bash]
+----
+git clone https://github.com/opennms-config-modules/nextcloud.git
+cd nextcloud
+cp snmp-graph.properties.d/nextcloud.graph.properties /opt/opennms/etc/snmp-graph.properties.d
+cp xml-datacollection/nextcloud-serverinfo.xml /opt/opennms/etc/xml-datacollection
+----
+
+== Configure Collectd
+
+Add the following lines `collectd-configuration.xml` in the `in the default installed ``example1` package.
+The `collector service` needs to be added on the very end of the file, it tells OpenNMS to the XML collector for this type of service.
+
+.Create a new collection service for the Nextcloud serverinfo metrics
+[source, xml]
+----
+<service name="Nextcloud-Serverinfo" interval="300000" user-defined="false" status="on">
+    <parameter key="collection" value="nextcloud-serverinfo" />
+</service>
+
+<collector service="Nextcloud-Serverinfo" class-name="org.opennms.protocols.xml.collector.XmlCollector"/>
+----
+
+Create the `xml-datacollection-config.xml` which defines RRD configuration.
+
+[source, xml]
+----
+<xml-datacollection-config rrdRepository="/opt/opennms/share/rrd/snmp/" <1>
+                           xmlns="http://xmlns.opennms.org/xsd/config/xml-datacollection">
+    <xml-collection name="nextcloud-serverinfo">
+        <rrd step="300">
+            <rra>RRA:AVERAGE:0.5:1:2016</rra>
+            <rra>RRA:AVERAGE:0.5:12:1488</rra>
+            <rra>RRA:AVERAGE:0.5:288:366</rra>
+            <rra>RRA:MAX:0.5:288:366</rra>
+            <rra>RRA:MIN:0.5:288:366</rra>
+        </rrd>
+        <xml-source url="http://USER:PASS@YOUR-SERVER/nextcloud/ocs/v2.php/apps/serverinfo/api/v1/info"> <2><3>
+            <import-groups>xml-datacollection/nextcloud-serverinfo.xml</import-groups> <4>
+        </xml-source>
+    </xml-collection>
+</xml-datacollection-config>
+----
+<1> Path to RRD files
+<2> URL to Nextcloud serverinfo XML file, for authentication use USER:PASS@host/path in the URL
+<3> Instead of `YOUR-SERVER` you can also use `{ipaddr}` which is replaced with the IP interface address of the assigned `Nexcloud-Serverinfo` service
+<4> Include pre-configured metrics configuration which needs to be persisted
+
+Restart OpenNMS and provision a service on your nodes IP interface named `Nexcloud-Serverinfo`.
