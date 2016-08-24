@@ -1,0 +1,15 @@
+<xml-datacollection-config rrdRepository="/opt/opennms/share/rrd/snmp/"
+                           xmlns="http://xmlns.opennms.org/xsd/config/xml-datacollection">
+    <xml-collection name="nextcloud-serverinfo">
+        <rrd step="300">
+            <rra>RRA:AVERAGE:0.5:1:2016</rra>
+            <rra>RRA:AVERAGE:0.5:12:1488</rra>
+            <rra>RRA:AVERAGE:0.5:288:366</rra>
+            <rra>RRA:MAX:0.5:288:366</rra>
+            <rra>RRA:MIN:0.5:288:366</rra>
+        </rrd>
+        <xml-source url="http://USER:PASS@YOUR-SERVER/nextcloud/ocs/v2.php/apps/serverinfo/api/v1/info">
+            <import-groups>xml-datacollection/nextcloud-serverinfo.xml</import-groups>
+        </xml-source>
+    </xml-collection>
+</xml-datacollection-config>

@@ -1,0 +1,35 @@
+<xml-groups>
+    <xml-group name="nextcloud-system" resource-type="node" resource-xpath="/ocs/data/nextcloud/system">
+        <xml-object name="memtotal" type="GAUGE" xpath="mem_total"/>
+        <xml-object name="memfree" type="GAUGE" xpath="mem_free"/>
+        <xml-object name="freespace" type="GAUGE" xpath="freespace"/>
+        <xml-object name="load1minute" type="GAUGE" xpath="cpuload/element[1]"/>
+        <xml-object name="load5minute" type="GAUGE" xpath="cpuload/element[2]"/>
+        <xml-object name="load15minute" type="GAUGE" xpath="cpuload/element[3]"/>
+    </xml-group>
+    <xml-group name="nextcloud-storage" resource-type="node" resource-xpath="/ocs/data/nextcloud/storage">
+        <xml-object name="numUsers" type="GAUGE" xpath="num_users"/>
+        <xml-object name="numFiles" type="GAUGE" xpath="num_files"/>
+        <xml-object name="numStorages" type="GAUGE" xpath="num_storages"/>
+        <xml-object name="numStoragesLocal" type="GAUGE" xpath="num_storages_local"/>
+        <xml-object name="numStoragesHome" type="GAUGE" xpath="num_storages_home"/>
+        <xml-object name="numStoragesOther" type="GAUGE" xpath="num_storages_other"/>
+    </xml-group>
+    <xml-group name="nextcloud-shares" resource-type="node" resource-xpath="/ocs/data/nextcloud/shares">
+        <xml-object name="numShares" type="GAUGE" xpath="num_shares"/>
+        <xml-object name="numSharesUser" type="GAUGE" xpath="num_shares_user"/>
+        <xml-object name="numSharesGroups" type="GAUGE" xpath="num_shares_groups"/>
+        <xml-object name="numSharesLink" type="GAUGE" xpath="num_shares_link"/>
+        <xml-object name="numSharesLinkNoPw" type="GAUGE" xpath="num_shares_link_no_password"/>
+        <xml-object name="numFedSharesSent" type="GAUGE" xpath="num_fed_shares_sent"/>
+        <xml-object name="numFedSharesRecvd" type="GAUGE" xpath="num_fed_shares_received"/>
+    </xml-group>
+    <xml-group name="nextcloud-database" resource-type="node" resource-xpath="/ocs/data/server/database">
+        <xml-object name="size" type="GAUGE" xpath="size"/>
+    </xml-group>
+    <xml-group name="nextcloud-active-user" resource-type="node" resource-xpath="/ocs/data/activeUsers">
+        <xml-object name="last5min" type="GAUGE" xpath="last5minutes"/>
+        <xml-object name="last1hour" type="GAUGE" xpath="last1hour"/>
+        <xml-object name="last24hours" type="GAUGE" xpath="last24hours"/>
+    </xml-group>
+</xml-groups>
