@@ -10,6 +10,7 @@ With the provided configuration the metrics will be collected every 5 minutes an
 * Installed  with XML data collector plugin
 * Provision your Nextcloud server into OpenNMS for monitoring
 * OpenNMS is installed in /opt/opennms
+* Optional: Grafana and link:https://wiki.opennms.org/wiki/Grafana[OpenNMS Grafana] with the link:https://grafana.net/plugins/opennms-datasource[Data Source] installed.
 
 The XML data collector plugin is not installed by default and can be installed with
 
@@ -81,3 +82,8 @@ Create the `xml-datacollection-config.xml` which defines RRD configuration.
 <4> Include pre-configured metrics configuration for data collection
 
 Restart OpenNMS and provision a service on your nodes IP interface named `Nexcloud-Serverinfo`.
+
+== Grafana template
+
+Within the Grafana folder you can find a dashboard in JSON which can be imported.
+All you need is to replace the `"nodeId": "1",` values with the OpenNMS node and import the content of the file in `grafana/nextcloud-dashboard.json`.
