@@ -1,6 +1,6 @@
 = Nextcloud data performance data collection
 
-This repository has contains the configuration to use link:http://www.opennms.org[OpenNMS] collecting performance metrics provided through the link:https://github.com/nextcloud/serverinfo[Nextcloud serverinfo API].
+This repository contains the configuration to use link:http://www.opennms.org[OpenNMS] collecting performance metrics provided through the link:https://github.com/nextcloud/serverinfo[Nextcloud serverinfo API].
 With the provided configuration the metrics will be collected every 5 minutes and persisted in OpenNMS using the configured storage strategy like link:http://oss.oetiker.ch/rrdtool/[RRDtool] or link:http://cassandra.apache.org[Cassandra] based link:http://opennms.github.io/newts/[Newts].
 
 == Requirements
@@ -87,3 +87,6 @@ Restart OpenNMS and provision a service on your nodes IP interface named `Nexclo
 
 Within the Grafana folder you can find a dashboard in JSON which can be imported.
 All you need is to replace the `"nodeId": "1",` values with the OpenNMS node and import the content of the file in `grafana/nextcloud-dashboard.json`.
+
+== Author
+ronny@opennms.org
