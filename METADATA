@@ -1,0 +1,6 @@
+name="nextcloud"
+publisher="The OpenNMS Group, Inc."
+author_email="ronny@opennms.org"
+license="GNU AFFERO GENERAL PUBLIC LICENSE 3"
+description="Monitoring configuration module for Nextcloud."
+version="0.1"
